@@ -1,0 +1,1 @@
+require 'visual_captcha'
