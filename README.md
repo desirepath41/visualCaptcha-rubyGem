@@ -97,7 +97,7 @@ end
 - `:session`, Object — The object that will hold the session data for visualCaptcha.
 - `:namespace`, String — This is private and will hold the namespace for each visualCaptcha instance. Defaults to 'visualcaptcha'.
 
-### VisualCaptcha/Session methods
+### VisualCaptcha::Session methods
 
 - `initialize( :session, :namespace )` — Initialize the visualCaptcha session.
 - `clear()` — Will clear the session for the current namespace.
@@ -105,7 +105,7 @@ end
 - `set( :key, :value )` — Set the `:value` for the session's `:key`.
 
 
-### VisualCaptcha/Captcha properties
+### VisualCaptcha::Captcha properties
 
 - `@session`, Object that will have a reference for the session object.
   It will have .visualCaptcha.images, .visualCaptcha.audios, .visualCaptcha.validImageOption, and .visualCaptcha.validAudioOption.
@@ -115,7 +115,7 @@ end
 - `@audio_options`, All the audio options.
   These can be easily overwritten or extended using addAudioOptions( <Array> ), or replaceAudioOptions( <Array> ). By default, they're populated using the ./audios.json file
 
-### VisualCaptcha/Captcha methods
+### VisualCaptcha::Captcha methods
 
 You'll find more documentation on the code itself, but here's the simple list for reference.
 
