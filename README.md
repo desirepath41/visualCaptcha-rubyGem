@@ -9,9 +9,16 @@ RubyGem package for visualCaptcha's backend service
 
 ## Installation with Gem
 
-You need Ruby installed.
+You need Ruby 1.9.3+ installed.
 ```
 gem install visual_captcha
+```
+
+## Run tests
+
+You need Bundler and Rake installed and then you can run
+```
+bundle install && rake
 ```
 
 
@@ -132,3 +139,8 @@ You'll find more documentation on the code itself, but here's the simple list fo
 - `getAudioOption()` — Alias for getValidAudioOption.
 - `all_image_options()` — Return all the image options.
 - `all_audio_options()` — Return all the audio options.
+
+
+## License
+
+MIT. Check the [LICENSE](LICENSE) file.

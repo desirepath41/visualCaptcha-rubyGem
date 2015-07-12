@@ -2,6 +2,10 @@ require 'json'
 require 'securerandom'
 
 class VisualCaptcha::Captcha
+  # @param session is the default session object
+  # @param assets_path is optional. Defaults to 'assets'. The path is relative to /
+  # @param default_images is optional. Defaults to the array inside ./images.json. The path is relative to ./images/
+  # @param default_audios is optional. Defaults to the array inside ./audios.json. The path is relative to ./audios/
   def initialize(session, assets_path = nil, default_images = nil, default_audios = nil)
     @session = session
 
@@ -15,11 +19,13 @@ class VisualCaptcha::Captcha
     @audio_options ||= JSON.load File.read("#{@assets_path}/audios.json")
   end
 
+  # Generate a new valid option
+  # @param numberOfOptions is optional. Defaults to 5
   def generate(number_of_options = 5)
     @session.clear
 
     number_of_options = number_of_options.to_i
-    number_of_options = 2 if number_of_options < 2
+    number_of_options = 4 if number_of_options < 4
 
     images = all_image_options.sample number_of_options
     images.each do |image|
@@ -40,6 +46,9 @@ class VisualCaptcha::Captcha
     }
   end
 
+  # Stream audio file
+  # @param headers object. used to store http headers for streaming
+  # @param fileType defaults to 'mp3', can also be 'ogg'
   def stream_audio(headers, file_type = 'mp3')
     audio_option = valid_audio_option
     return nil if audio_option.nil?
@@ -58,6 +67,10 @@ class VisualCaptcha::Captcha
     read_file headers, audio_file_path, content_type
   end
 
+  # Stream image file given an index in the session visualCaptcha images array
+  # @param headers object. used to store http headers for streaming
+  # @param index of the image in the session images array to send
+  # @paran isRetina boolean. Defaults to false
   def stream_image(headers, index, is_retina)
     image_option = selected_image_at_index index.to_i
     return nil if image_option.nil?
@@ -116,6 +129,11 @@ class VisualCaptcha::Captcha
     headers['Pragma'] = 'no-cache'
     headers['Expires'] = '0'
 
-    File.read file_path
+    file_contents = File.read file_path
+
+    # Add some noise randomly, so images can't be saved and matched easily by filesize or checksum
+    file_contents += SecureRandom.hex(SecureRandom.random_number(1500))
+
+    return file_contents
   end
 end
